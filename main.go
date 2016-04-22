@@ -8,11 +8,16 @@ import (
 
 func findArduino() string {
 	content, _ := ioutil.ReadDir("/dev")
+	likelyDevices := [3]string{
+		"ttyACM0",
+		"ttyUSB.serial",
+		"ttyUSB"}
 
 	for _, f := range content {
-		if strings.Contains(f.Name(), "tty.usbserial") ||
-			strings.Contains(f.Name(), "ttyUSB") {
-			return "/dev/" + f.Name()
+		for i := 0; i < 3; i++ {
+			if strings.Contains(f.Name(), likelyDevices[i]) {
+				return "/dev/" + f.Name()
+			}
 		}
 	}
 	return ""
